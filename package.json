@@ -1,14 +1,23 @@
 {
   "name": "puppeter-intro",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.2.3",
+  "description": "Using puppeteer to scrape the Colombia Fintech website",
   "main": "index.js",
   "type": "module",
   "scripts": {},
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Puppeteer",
+    "Node.js",
+    "SQLite",
+    "Web Scraping",
+    "Fintech",
+    "Colombia",
+    "Web Developer"
+  ],
+  "author": "Diego Whiskey",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "22.6.5"
+    "puppeteer": "22.6.5",
+    "sqlite3": "5.1.7"
   }
 }
