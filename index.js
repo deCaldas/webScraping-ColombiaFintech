@@ -1,76 +1,63 @@
 import puppeteer from "puppeteer";
-import fs from "fs/promises";
+import sqlite3 from 'sqlite3';
 
 /**
- * Scrapes data from the Colombia Fintech website and saves it to a JSON file.
- * @returns {Promise<void>} A Promise that resolves when the scraping and saving process is complete.
+ * Función para extraer información de cada fintech y guardarla en la base de datos SQLite.
+ * @param {Object} fintechData - Objeto con los datos de la fintech.
+ * @param {sqlite3.Database} db - Conexión a la base de datos SQLite.
  */
-async function scrapeColombiaFintechData() {
-    const browser = await puppeteer.launch({ headless: false, slowMo: 300 });
-    const page = await browser.newPage();
-
-    try {
-        // Navigate to the Colombia Fintech website
-        await page.goto('https://www.colombiafintech.co/fintechs');
-        // Wait for all fintech elements to be loaded
-        await page.waitForSelector('div.fcompany_info');
-
-        // Extract data from each fintech element
-        const colombiaFintechData = await page.evaluate(() => {
-            const fintechElements = document.querySelectorAll('div.fcompany_info');
-            const data = [];
-
-            fintechElements.forEach(fintech => {
-                const nameFintech = fintech.querySelector('p.info_name').innerText.trim();
-                const sector = fintech.querySelector('p.info_sector').innerText.trim();
-                const linkWebsite = fintech.querySelector('a').getAttribute('href'); // Extraer el href del enlace
-                const city = fintech.querySelector('p.info_item').innerText.trim();
-                const profileUrl = fintech.querySelector('a.info_profile')?.href;
-
-                data.push({ nameFintech, sector, linkWebsite, city, profileUrl });
-            });
-
-            return data;
-        });
-
-        // Loop through each fintech to fetch profile details
-        for (const fintech of colombiaFintechData) {
-            if (fintech.profileUrl) {
-                const profilePage = await browser.newPage();
-                await profilePage.goto(fintech.profileUrl);
-
-                // Wait for profile data to be loaded
-                await profilePage.waitForSelector('div.profile-body');
-
-                // Extract profile details
-                const profileData = await profilePage.evaluate(() => {
-                    const profileContent = document.querySelector('div.profile-body');
-                    const description = (profileContent?.querySelector('p')?.innerText || "Description not available").trim();
-                    const memberPosition = (profileContent?.querySelector('p.member-position')?.innerText || "").trim();
-                    const memberName = (profileContent?.querySelector('p.member-name')?.innerText || "").trim();
-
-                    return { description, memberPosition, memberName };
-                });
-
-                Object.assign(fintech, profileData); // Merge profile data into fintech object
-
-                // Close the profile page after extracting data
-                await profilePage.close();
-            }
-        }
-
-        // Save the scraped data to a JSON file
-        const fileName = 'colombia_fintech_data.json';
-        const jsonData = JSON.stringify(colombiaFintechData, null, 2);
-        await fs.writeFile(fileName, jsonData);
-        console.log(`Data saved to ${fileName}`);
-    } catch (error) {
-        console.error('Error scraping data:', error);
-    } finally {
-        // Close the browser after scraping is complete
-        await browser.close();
-    }
+async function saveFintechData(fintechData, db) {
+    // Insertar los datos en la tabla de la base de datos
+    const stmt = db.prepare('INSERT INTO fintechs (name, sector, url, profile) VALUES (?, ?, ?, ?)');
+    stmt.run(fintechData.name, fintechData.sector, fintechData.url, fintechData.profile);
+    stmt.finalize();
 }
 
-// Start the scraping process
-scrapeColombiaFintechData();
+/**
+ * Función principal para realizar web scraping en Colombia Fintech y guardar los datos en SQLite.
+ */
+async function scrapeAndSaveData() {
+    // Iniciar navegador Puppeteer
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    // Navegar a la página de fintechs de Colombia Fintech
+    await page.goto('https://www.colombiafintech.co/fintechs');
+
+    // Extraer datos de cada fintech
+    const fintechsData = await page.evaluate(() => {
+        const fintechs = Array.from(document.querySelectorAll('div.fcompany_info'));
+
+        // Mapear los datos de cada fintech
+        return fintechs.map(fintech => {
+            const name = fintech.querySelector('p.info_name').innerText;
+            const sector = fintech.querySelector('p.info_sector').innerText;
+            const url = fintech.querySelector('a').getAttribute('href');
+            const profile = fintech.querySelector('a.info_profile').getAttribute('href');
+
+            return { name, sector, url, profile };
+        });
+    });
+
+    // Cerrar el navegador Puppeteer
+    await browser.close();
+
+    // Conectar a la base de datos SQLite
+    const db = new sqlite3.Database('fintechs.db');
+
+    // Crear tabla si no existe
+    db.serialize(() => {
+        db.run('CREATE TABLE IF NOT EXISTS fintechs (name TEXT, sector TEXT, url TEXT, profile TEXT)');
+    });
+
+    // Guardar datos de cada fintech en la base de datos
+    fintechsData.forEach(fintech => {
+        saveFintechData(fintech, db);
+    });
+
+    // Cerrar la conexión a la base de datos
+    db.close();
+}
+
+// Ejecutar la función principal
+scrapeAndSaveData().then(() => console.log('Datos guardados en la base de datos SQLite.'));
