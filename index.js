@@ -6,16 +6,6 @@ import sqlite3 from 'sqlite3';
  * @param {Object} fintechData - Objeto con los datos de la fintech.
  * @param {sqlite3.Database} db - Conexión a la base de datos SQLite.
  */
-async function saveFintechData(fintechData, db) {
-    // Insertar los datos en la tabla de la base de datos
-    const stmt = db.prepare('INSERT INTO fintechs (name, sector, url, profile) VALUES (?, ?, ?, ?)');
-    stmt.run(fintechData.name, fintechData.sector, fintechData.url, fintechData.profile);
-    stmt.finalize();
-}
-
-/**
- * Función principal para realizar web scraping en Colombia Fintech y guardar los datos en SQLite.
- */
 async function scrapeAndSaveData() {
     // Iniciar navegador Puppeteer
     const browser = await puppeteer.launch();
@@ -26,16 +16,20 @@ async function scrapeAndSaveData() {
 
     // Extraer datos de cada fintech
     const fintechsData = await page.evaluate(() => {
-        const fintechs = Array.from(document.querySelectorAll('div.fcompany_info'));
+        const fintechs = Array.from(document.querySelectorAll('body > div.fdirectory > div.fdirectory__members > div > div.fcompany__info'));
 
         // Mapear los datos de cada fintech
         return fintechs.map(fintech => {
-            const name = fintech.querySelector('p.info_name').innerText;
-            const sector = fintech.querySelector('p.info_sector').innerText;
-            const url = fintech.querySelector('a').getAttribute('href');
-            const profile = fintech.querySelector('a.info_profile').getAttribute('href');
+            const nameElement = fintech.querySelector('p.info__name');
+            const sectorElement = fintech.querySelector('p.info__sector');
+            const urlElement = fintech.querySelector('a');
 
-            return { name, sector, url, profile };
+            // Comprobaciones para asegurar que los elementos existen
+            const name = nameElement ? nameElement.innerText : '';
+            const sector = sectorElement ? sectorElement.innerText : '';
+            const url = urlElement ? urlElement.getAttribute('href') : '';
+
+            return { name, sector, url };
         });
     });
 
@@ -47,17 +41,33 @@ async function scrapeAndSaveData() {
 
     // Crear tabla si no existe
     db.serialize(() => {
-        db.run('CREATE TABLE IF NOT EXISTS fintechs (name TEXT, sector TEXT, url TEXT, profile TEXT)');
+        db.run('CREATE TABLE IF NOT EXISTS fintechs (name TEXT, sector TEXT, url TEXT)'); // Agregué un paréntesis de cierre al final de la declaración de la tabla
     });
 
     // Guardar datos de cada fintech en la base de datos
     fintechsData.forEach(fintech => {
-        saveFintechData(fintech, db);
+        saveFintechData(fintech, db); // Llamada a la función saveFintechData corregida
     });
 
     // Cerrar la conexión a la base de datos
     db.close();
 }
 
+/**
+ * Función para guardar datos de una fintech en la base de datos SQLite.
+ * @param {Object} fintechData - Objeto con los datos de la fintech.
+ * @param {sqlite3.Database} db - Conexión a la base de datos SQLite.
+ */
+function saveFintechData(fintechData, db) {
+    const { name, sector, url } = fintechData;
+    db.run('INSERT INTO fintechs (name, sector, url) VALUES (?, ?, ?)', [name, sector, url], (err) => {
+        if (err) {
+            console.error('Error al guardar datos:', err);
+        } else {
+            console.log('Datos guardados correctamente:', name);
+        }
+    });
+}
+
 // Ejecutar la función principal
-scrapeAndSaveData().then(() => console.log('Datos guardados en la base de datos SQLite.'));
+scrapeAndSaveData().then(() => console.log('Datos guardados en la base de datos SQLite.')).catch(err => console.error('Error al ejecutar la función principal:', err));
