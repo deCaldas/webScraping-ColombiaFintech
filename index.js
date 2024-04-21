@@ -41,12 +41,13 @@ async function scrapeAndSaveData() {
 
     // Crear tabla si no existe
     db.serialize(() => {
-        db.run('CREATE TABLE IF NOT EXISTS fintechs (name TEXT, sector TEXT, url TEXT)'); // Agregué un paréntesis de cierre al final de la declaración de la tabla
+        db.run('CREATE TABLE IF NOT EXISTS fintechs (name TEXT, sector TEXT, url TEXT)');
     });
 
     // Guardar datos de cada fintech en la base de datos
     fintechsData.forEach(fintech => {
-        saveFintechData(fintech, db); // Llamada a la función saveFintechData corregida
+        // Llamada a la función saveFintechData corregida
+        saveFintechData(fintech, db);
     });
 
     // Cerrar la conexión a la base de datos
