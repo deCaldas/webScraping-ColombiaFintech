@@ -1,66 +1,41 @@
-# Web Scraping en la Industria Fintech de Colombia
+# Proyecto de Scraping de Datos para el Ecosistema Fintech en Colombia
 
-## Descripción del Proyecto
-
-Este proyecto tiene como objetivo realizar web scraping en el sitio web de Colombia Fintech para recopilar información sobre las empresas fintech en Colombia. Utilizamos Puppeteer para extraer los datos de las empresas fintech y los almacenamos en una base de datos SQLite para su posterior análisis.
+Este proyecto está diseñado para extraer datos relevantes del ecosistema fintech en Colombia desde el sitio web de [Colombia Fintech](https://colombiafintech.co/). La información extraída incluye el nombre de la empresa fintech, su sector, URL y ciudad.
 
 ## Desarrollador
 
 - **Nombre:** Diego Whiskey
 - **Perfil:** Desarrollador Web JavaScript Full-stack
-- **LinkedIn:** [Tu perfil de LinkedIn](https://www.linkedin.com/in/diegowhiskey/)
-- **GitHub:** [Tu perfil de GitHub](https://github.com/decaldas/)
+- **[Perfil en LinkedIn](https://www.linkedin.com/in/diegowhiskey/)**
+- **[Perfil en GitHub](https://github.com/decaldas/)**
 
-## Cómo Contribuir
+> El código está desarrollado en Node.js utilizando Puppeteer para el scraping de datos de la web mencionada. Incluye funciones para obtener y visualizar los datos tanto en la consola como a través de un servidor local.
 
-¡Estoy buscando gente voluntaria y entusiasta para colaborar en este proyecto! Si te interesa contribuir, aquí hay algunas formas en que puedes ayudar:
+## Objetivo
 
-- Mejorar el proceso de scraping para obtener más datos de las empresas fintech.
-- Optimizar el código para hacerlo más eficiente y escalable.
-- Añadir funcionalidades adicionales, como la capacidad de actualizar los datos existentes.
-- Ayudar a mejorar la documentación y los comentarios del código.
-- Reportar problemas y sugerir nuevas ideas en la sección de problemas del repositorio.
+El propósito principal de este proyecto es la **conección con las startups fintech de Colombia**.
 
-¡No dudes en contactarme a través de LinkedIn o GitHub!
+## Uso
 
-## Cómo Funciona el Proyecto
+### Instalación
 
-### Dependencias
+#### Dependencias
 
 Para ejecutar este proyecto, necesitas tener instaladas las siguientes dependencias:
 
-- Node.js
 - Puppeteer
 - SQLite3
+- Express
 
-### Instalación de Dependencias
-
-Para instalar las dependencias necesarias, ejecuta el siguiente comando en tu terminal:
-
-```bash
-npm install puppeteer sqlite3
-```
-
-### Instalación de SQLite Browser en Linux
-
-Para instalar SQLite Browser en Linux, puedes seguir estos pasos:
-
-1. Abre una terminal en tu distribución de Linux.
-2. Ejecuta el siguiente comando para instalar SQLite Browser:
+Para instalar las dependencias, ejecuta el siguiente comando:
 
 ```bash
-sudo apt install sqlitebrowser
+npm install
 ```
 
-Para abrir el programa, debes ejecutar:
+### Ejecución
 
-```bash
-sqlitebrowser
-```
-
-### Ejecución del Proyecto
-
-Para ejecutar el proyecto, simplemente clona este repositorio y ejecuta el siguiente comando en tu terminal:
+Para ejecutar el scraping de datos desde la consola, puedes utilizar el siguiente comando:
 
 ```bash
 node index.js
@@ -68,4 +43,18 @@ node index.js
 
 Esto iniciará el proceso de web scraping en el sitio web de Colombia Fintech y guardará los datos en la base de datos SQLite `fintechs.db`.
 
-¡Espero contar con tu colaboración en este emocionante proyecto para explorar la industria fintech en Colombia!
+Para acceder a los resultados a través del servidor local, ejecuta:
+
+```bash
+npm start
+```
+
+Luego, visita `http://localhost:3000/fintechs/` en tu navegador.
+
+## Contribución
+
+¡Tienes esta invitación a contribuir al desarrollo de este proyecto! Si encuentras errores o deseas añadir nuevas funcionalidades, no dudes en enviar un pull request.
+
+## Contacto
+
+Si estás interesado en colaborar en este proyecto o tienes alguna pregunta, no dudes en contactarme a través de [mi perfil en GitHub](https://github.com/deCaldas/).
