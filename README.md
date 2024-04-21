@@ -57,4 +57,4 @@ Luego, visita `http://localhost:3000/fintechs/` en tu navegador.
 
 ## Contacto
 
-Si estás interesado en colaborar en este proyecto o tienes alguna pregunta, no dudes en contactarme a través de [mi perfil en GitHub](https://github.com/deCaldas/).
+Si estás interesado en colaborar en este proyecto o tienes alguna pregunta, no dudes en contactarme a través del [perfil en GitHub](https://github.com/deCaldas/).
