@@ -1,6 +1,6 @@
 {
   "name": "puppeter-intro",
-  "version": "1.3.9",
+  "version": "1.3.11",
   "description": "Using puppeteer to scrape the Colombia Fintech website",
   "main": "index.js",
   "type": "module",

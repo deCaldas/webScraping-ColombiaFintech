@@ -1,4 +1,4 @@
-# Proyecto de Scraping de Datos para el Ecosistema Fintech en Colombia
+# Scraping de Datos para el Ecosistema Fintech en Colombia
 
 Este proyecto está diseñado para extraer datos relevantes del ecosistema fintech en Colombia desde el sitio web de [Colombia Fintech](https://colombiafintech.co/). La información extraída incluye el nombre de la empresa fintech, su sector, URL y ciudad.
 
@@ -6,14 +6,14 @@ Este proyecto está diseñado para extraer datos relevantes del ecosistema finte
 
 - **Nombre:** Diego Whiskey
 - **Perfil:** Desarrollador Web JavaScript Full-stack
-- **[Perfil en LinkedIn](https://www.linkedin.com/in/diegowhiskey/)**
-- **[Perfil en GitHub](https://github.com/decaldas/)**
+- **Perfil en [LinkedIn](https://www.linkedin.com/in/diegowhiskey/)**
+- **Perfil en [GitHub](https://github.com/decaldas/)**
 
 > El código está desarrollado en Node.js utilizando Puppeteer para el scraping de datos de la web mencionada. Incluye funciones para obtener y visualizar los datos tanto en la consola como a través de un servidor local.
 
 ## Objetivo
 
-El propósito principal de este proyecto es la **conección con las startups fintech de Colombia**.
+El propósito principal de este proyecto es la **conexión con las startups fintech de Colombia**.
 
 ## Uso
 

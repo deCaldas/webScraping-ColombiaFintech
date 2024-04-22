@@ -143,5 +143,7 @@ dist
 
 # Directorio predeterminado para dllo
 tmp
+fintechs.db
+packages-lock.json
 
 # End of https://www.toptal.com/developers/gitignore/api/node
