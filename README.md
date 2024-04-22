@@ -2,13 +2,6 @@
 
 Este proyecto está diseñado para extraer datos relevantes del ecosistema fintech en Colombia desde el sitio web de [Colombia Fintech](https://colombiafintech.co/). La información extraída incluye el nombre de la empresa fintech, su sector, URL y ciudad.
 
-## Desarrollador
-
-- **Nombre:** Diego Whiskey
-- **Perfil:** Desarrollador Web JavaScript Full-stack
-- **Perfil en [LinkedIn](https://www.linkedin.com/in/diegowhiskey/)**
-- **Perfil en [GitHub](https://github.com/decaldas/)**
-
 > El código está desarrollado en Node.js utilizando Puppeteer para el scraping de datos de la web mencionada. Incluye funciones para obtener y visualizar los datos tanto en la consola como a través de un servidor local.
 
 ## Objetivo
@@ -57,4 +50,10 @@ Luego, visita `http://localhost:3000/fintechs/` en tu navegador.
 
 ## Contacto
 
-Si estás interesado en colaborar en este proyecto o tienes alguna pregunta, no dudes en contactarme a través del [perfil en GitHub](https://github.com/deCaldas/).
+Si estás interesado en colaborar en este proyecto o tienes alguna pregunta, no dudes en contactarme a través del perfil en [GitHub](https://github.com/deCaldas/).
+
+## Desarrollador
+
+- **Nombre:** Diego Whiskey
+- **Perfil:** Desarrollador Web JavaScript Full-stack
+- **Perfil en [LinkedIn](https://www.linkedin.com/in/diegowhiskey/)**
